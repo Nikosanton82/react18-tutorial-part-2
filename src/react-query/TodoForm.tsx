@@ -12,17 +12,12 @@ const TodoForm = () => {
         .then((res) => res.data),
 
     onSuccess: (savedTodo, newTodo) => {
-      console.log(savedTodo);
-      // Approach 1: Invalidating the cache
-      // queryClient.invalidateQueries({
-      //   queryKey: ['todos']
-      // })
-
-      // Approach 2: Updating the data in the cache
       queryClient.setQueryData<Todo[]>(["todos"], (todos) => [
         savedTodo,
         ...(todos || []),
       ]);
+
+      if (ref.current) ref.current.value = "";
     },
   });
   const ref = useRef<HTMLInputElement>(null);
@@ -50,7 +45,9 @@ const TodoForm = () => {
           <input ref={ref} type="text" className="form-control" />
         </div>
         <div className="col">
-          <button className="btn btn-primary">Add</button>
+          <button disabled={addTodo.isLoading} className="btn btn-primary">
+            {addTodo.isLoading ? "Adding..." : "Add"}
+          </button>
         </div>
       </form>
     </>
