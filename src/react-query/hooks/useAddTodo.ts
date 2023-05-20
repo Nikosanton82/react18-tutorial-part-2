@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import APIClient from "../services/apiClient";
 import { CACHE_KEY_TODOS } from "../constants";
 import todoService, { Todo } from "../services/todoService";
 
